@@ -2,32 +2,83 @@
     let $ = document.querySelector.bind(document),
         $$ = document.querySelectorAll.bind(document);
     
-        let answer = 0;
-        let currentValue = 0;
-        let sign = false;
+        let valueA = undefined;
+        let valueB = undefined;
+        let valid = false;
+        let nextSign = undefined;
+        let prevSign = undefined;
 
     let inputs = $$("button.btn-color");
     for (let i = 0; i < inputs.length; i++) {
-        console.log('inputs[i] ', inputs[i]);
         inputs[i].addEventListener('click', function() {
-            console.log('inputs[i] 2 ', inputs[i].textContent);
-            if ($('.dsptext').textContent <= 0 || sign) {
+            if ($('.dsptext').textContent <= 0 || valid) {
                 $('.dsptext').textContent = inputs[i].textContent;
-                sign = false;
+                valid = false;
             }
             else {
                 $('.dsptext').textContent += inputs[i].textContent;
             }
         });
     }
+    // 
     $('#add').addEventListener('click', (event) => {
         event.preventDefault();
-        
-        currentValue = $('.dsptext').textContent;
-        // answer = currentValue + answer;
-        console.log('answer ', answer, 'currentValue ', currentValue);
-        answer = parseInt(currentValue) + parseInt(answer);
-        $('.dsptext').textContent = answer;
-        sign = true;
+        // debugger;
+        operation('+');
     })
+
+    $('#subtract').addEventListener('click', (event) => {
+        event.preventDefault();
+        // debugger;
+        operation('');
+    })
+
+    $('#multiply').addEventListener('click', (event) => {
+        event.preventDefault();
+        // debugger;
+        operation('*');
+    })
+
+    $('#divide').addEventListener('click', (event) => {
+        event.preventDefault();
+        // debugger;
+        operation('/');
+    })
+
+    let operation = sign => {
+        if(!valueA) {
+            valueA = $('.dsptext').textContent;
+            prevSign = sign;
+            valid = true;
+            return
+        }
+        else {
+            valueB = $('.dsptext').textContent;
+            nextSign = sign
+            // answer = currentValue + answer;
+            console.log(`${valueA} ${prevSign}  ${valueB}`);
+
+            if (prevSign === '+') {
+                valueA = parseInt(valueA) + parseInt(valueB);
+            }
+
+            if (prevSign === '-') {
+                valueA = parseInt(valueA) - parseInt(valueB);
+            }
+
+            if (prevSign === '*') {
+                valueA = parseInt(valueA) * parseInt(valueB);
+            }
+
+            if (prevSign === '/') {
+                valueA = parseInt(valueA) / parseInt(valueB);
+            }
+
+
+            $('.dsptext').textContent = valueA;
+            prevSign = nextSign;
+            valid = true;
+        }
+    }
 })();
+

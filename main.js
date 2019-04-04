@@ -17,6 +17,12 @@
                 //Get Display Content
                 const displayledNum = display.textContent;
 
+                //Remove .is-depressed class from all keys
+                Array.from(key.parentNode.children).forEach(k => {
+                    k.classList.remove('is-depressed');
+                })
+
+                //Get pressed Numbers
                if(!action) {
                    console.log('key pressed ', key);
 
@@ -27,6 +33,17 @@
                    else {
                        display.textContent += keyContent;
                    }
+               }
+               // Get action buttons (E.g, Plus, minus, etc)
+
+               // If decimal point is pressed append .
+               else if (action === 'decimal') {
+                    display.textContent += '.';
+               }
+
+               else if (action === 'add' || action === 'subtract' || action === 'divide' || action === 'multiply') {
+                   console.log('key ', key);
+                   key.classList.add('is-depressed');
                }
                
             }

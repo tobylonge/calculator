@@ -2,83 +2,34 @@
     let $ = document.querySelector.bind(document),
         $$ = document.querySelectorAll.bind(document);
     
-        let valueA = undefined;
-        let valueB = undefined;
-        let valid = false;
-        let nextSign = undefined;
-        let prevSign = undefined;
+        const calculator = $('.calc');
+        const keys = calculator.querySelector('.keys');
+        const display = $('.display');
 
-    let inputs = $$("button.btn-color");
-    for (let i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener('click', function() {
-            if ($('.dsptext').textContent <= 0 || valid) {
-                $('.dsptext').textContent = inputs[i].textContent;
-                valid = false;
+        keys.addEventListener('click', (event) => {
+
+            //check if button clicked is a button
+            if(event.target.matches('button')) {
+                const key = event.target;
+                const action = key.dataset.action;
+                //Get Key Content
+                const keyContent = key.textContent;
+                //Get Display Content
+                const displayledNum = display.textContent;
+
+               if(!action) {
+                   console.log('key pressed ', key);
+
+                   // If key pressed = 0
+                   if (displayledNum == 0) {
+                        display.textContent = keyContent;
+                   }
+                   else {
+                       display.textContent += keyContent;
+                   }
+               }
+               
             }
-            else {
-                $('.dsptext').textContent += inputs[i].textContent;
-            }
-        });
-    }
-    // 
-    $('#add').addEventListener('click', (event) => {
-        event.preventDefault();
-        // debugger;
-        operation('+');
-    })
-
-    $('#subtract').addEventListener('click', (event) => {
-        event.preventDefault();
-        // debugger;
-        operation('');
-    })
-
-    $('#multiply').addEventListener('click', (event) => {
-        event.preventDefault();
-        // debugger;
-        operation('*');
-    })
-
-    $('#divide').addEventListener('click', (event) => {
-        event.preventDefault();
-        // debugger;
-        operation('/');
-    })
-
-    let operation = sign => {
-        if(!valueA) {
-            valueA = $('.dsptext').textContent;
-            prevSign = sign;
-            valid = true;
-            return
-        }
-        else {
-            valueB = $('.dsptext').textContent;
-            nextSign = sign
-            // answer = currentValue + answer;
-            console.log(`${valueA} ${prevSign}  ${valueB}`);
-
-            if (prevSign === '+') {
-                valueA = parseInt(valueA) + parseInt(valueB);
-            }
-
-            if (prevSign === '-') {
-                valueA = parseInt(valueA) - parseInt(valueB);
-            }
-
-            if (prevSign === '*') {
-                valueA = parseInt(valueA) * parseInt(valueB);
-            }
-
-            if (prevSign === '/') {
-                valueA = parseInt(valueA) / parseInt(valueB);
-            }
-
-
-            $('.dsptext').textContent = valueA;
-            prevSign = nextSign;
-            valid = true;
-        }
-    }
+        })
 })();
 
